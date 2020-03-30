@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { AnterosRow, AnterosCol } from 'anteros-react-layout';
 import { actions } from '../redux/modules/acoes';
-import { boundClass } from 'anteros-react-core';
+import { boundClass, If, Then } from 'anteros-react-core';
 import { Resources, EndPoints } from '../service/Resources';
 import { WithFormTemplate } from 'anteros-react-template';
 import DescricaoField from '../components/DescricaoField';
@@ -9,6 +9,7 @@ import NameField from '../components/NameField';
 import IdentificadorField from '../components/IdentificadorField';
 import SaveCancelButtons from '../components/SaveCancelButtons';
 import LookupField from '../components/LookupField';
+import ConsultaRecurso from '../modals/ConsultaRecursos';
 import axios from 'axios';
 
 const loadingProps = {
@@ -33,10 +34,11 @@ class AcoesForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { lookup: '' };
+        this.selectedRecords = {};
+        this.state = { lookup: '', modalOpen: '' };
     }
 
-    onLookupResouce(value) {
+    onLookupRecurso(value) {
         let _this = this;
         return new Promise(function (resolve, reject) {
             axios(EndPoints.FIND_ONE(Resources.RECURSO, value, _this.props.user, ''))
@@ -71,6 +73,25 @@ class AcoesForm extends Component {
         });
     }
 
+    onClick(event, button) {
+        let fieldName = '';
+        if (button.props.id === 'btnConsultarRecurso') {
+            fieldName = 'resource';
+        }
+        this.setState({ ...this.state, fieldName: fieldName, modalOpen: button.props.dataUser });
+    }
+
+    onClickOk(event, selectedRecords) {
+        if (this.state.modalOpen === 'modalConsultaRecurso') {
+            this.props.dataSource.setFieldByName('resource', selectedRecords[0]);
+        }
+        this.setState({ ...this.state, modalOpen: '' });
+    }
+
+    onClickCancel(event) {
+        this.setState({ ...this.state, modalOpen: '' });
+    }
+
     render() {
         return (
             <Fragment>
@@ -80,7 +101,7 @@ class AcoesForm extends Component {
                             dataField="id" />
                         <NameField
                             dataSource={this.props.dataSource}
-                            dataField="name" editSize={4} />    
+                            dataField="name" editSize={4} />
                         <DescricaoField
                             dataSource={this.props.dataSource}
                             dataField="description" editSize={6} />
@@ -89,16 +110,21 @@ class AcoesForm extends Component {
                             dataSource={this.props.dataSource}
                             dataField="category" editSize={3} />
                         <LookupField caption="Recurso" name="Recurso" dataSource={this.props.dataSource}
-                                dataField="catalogo" lookupField="resource.id" descriptionField="resouce.description" onStartLookupData={this.onStartLookupData}
-                                lookupState={this.state.lookup}
-                                lookupSize={2}
-                                onFinishedLookupData={this.onFinishedLookupData}
-                                onLookupData={this.onLookupRecurso}
-                                onLookupDataError={this.onLookupError} modalName="modalConsultaRecurso"
-                                onButtonClick={this.onClick} />
+                            dataField="resource" lookupField="resource.id" descriptionField="resouce.description" onStartLookupData={this.onStartLookupData}
+                            lookupState={this.state.lookup}
+                            lookupSize={2}
+                            onFinishedLookupData={this.onFinishedLookupData}
+                            onLookupData={this.onLookupRecurso}
+                            onLookupDataError={this.onLookupError} modalName="modalConsultaRecurso"
+                            onButtonClick={this.onClick} />
                     </AnterosCol>
                 </AnterosRow>
                 <SaveCancelButtons onButtonClick={this.props.onButtonClick} routeSave={this.props.loadingProps.routes.cancel} routeCancel={this.props.loadingProps.routes.cancel} />
+                <If condition={this.state.modalOpen === 'modalConsultaRecurso'}>
+                    <Then>
+                        <ConsultaRecurso onClickOk={this.onClickOk} onClickCancel={this.onClickCancel} modalOpen={this.state.modalOpen} selectedRecords={[]} />
+                    </Then>
+                </If>
             </Fragment >);
     }
 }

@@ -23,6 +23,8 @@ import horariosAcessoReducer from '../redux/modules/horariosAcesso';
 import horariosAcessoConsultaReducer from '../redux/modules/horariosAcessoConsulta';
 import adminLayoutReducer from '../components/AnterosAdminReducer';
 import sistemasAdminReducer from '../redux/modules/sistemasAdmin';
+import logAcessoReducer from '../redux/modules/logAcesso';
+import logAcessoConsultaReducer from '../redux/modules/logAcessoConsulta';
 
 const reducers = combineReducers({
   authenticationReducer,
@@ -43,7 +45,9 @@ const reducers = combineReducers({
   horariosAcessoReducer,
   horariosAcessoConsultaReducer,
   adminLayoutReducer,
-  sistemasAdminReducer
+  sistemasAdminReducer,
+  logAcessoReducer,
+  logAcessoConsultaReducer,
 });
 
 export function configureStore(initialState) {

@@ -30,7 +30,7 @@ import { boundClass } from 'anteros-react-core';
 class GruposView extends Component {
 
     onAfterInsert() {
-        
+
     }
 
 
@@ -83,7 +83,6 @@ class GruposView extends Component {
                     title="Descrição"
                     width="45%"
                 />
-               
             </Columns>
         );
     }
