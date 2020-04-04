@@ -31,13 +31,16 @@ const START_PAGE = 0;
     messageLoading: 'Por favor aguarde...',
     routes: {
         add: '/home/recurso/terminalacesso/adicionar',
-        edit: '/home/recurso/terminalacesso/sistema/editar',
+        edit: '/home/recurso/terminalacesso/editar',
         close: '/home/default'
     }
 })
 @boundClass
 class TerminalAcessoView extends Component {
 
+    onAfterInsert() {
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
+    }
 
     getFieldsFilter() {
         return (

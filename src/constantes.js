@@ -12,7 +12,7 @@ const asmControlBaseURL = 'http://10.0.0.190:8090/Versatil-Control-Server';
 
 
 // const authBaseURL = 'http://10.0.0.190:8090/Anteros-OAuth2-Server';
-// const nexusBaseURL = 'http://10.0.0.190:8090/Nexus-AFV-Server';
+// const nexusBaseURL = 'http://localhost:8090/Nexus-AFV-Server';
 // const nexusControlBaseURL = 'http://10.0.0.190:8090/Nexus-Control-Server';
 
 export { authBaseURL, asmBaseURL,asmControlBaseURL };

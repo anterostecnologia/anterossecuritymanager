@@ -38,10 +38,10 @@ class SistemasForm extends Component {
                             dataField="id" />
                         <NameField
                             dataSource={this.props.dataSource}
-                            dataField="name" editSize={3} maxLength={30}/>    
+                            dataField="name" editSize={3}/>    
                         <DescricaoField
                             dataSource={this.props.dataSource}
-                            dataField="description" editSize={3} maxLength={30}/>
+                            dataField="description" editSize={3}/>
                     </AnterosCol>
                 </AnterosRow>
                 <SaveCancelButtons onButtonClick={this.props.onButtonClick} routeSave={this.props.loadingProps.routes.cancel} routeCancel={this.props.loadingProps.routes.cancel} />

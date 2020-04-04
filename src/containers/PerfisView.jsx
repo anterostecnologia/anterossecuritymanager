@@ -5,6 +5,7 @@ import { Resources, EndPoints } from '../service/Resources';
 import { QueryFields, QueryField } from 'anteros-react-querybuilder';
 import { Columns, AnterosDataTableColumn } from 'anteros-react-table';
 import { boundClass } from 'anteros-react-core';
+import { connect } from 'react-redux';
 
 @WithTableContainerTemplate({
     resource: Resources.PERFIL,
@@ -30,7 +31,7 @@ import { boundClass } from 'anteros-react-core';
 class PerfisView extends Component {
 
     onAfterInsert() {
-        
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
     }
 
 
@@ -93,4 +94,12 @@ class PerfisView extends Component {
     }
 }
 
-export default PerfisView;
+const mapStateToProps = state => {
+    return {
+        user: state.authenticationReducer.user,
+        authenticated: state.authenticationReducer.authenticated,
+        system: state.sistemasAdminReducer.activeSystem
+    }
+};
+
+export default connect(mapStateToProps, null)(PerfisView);

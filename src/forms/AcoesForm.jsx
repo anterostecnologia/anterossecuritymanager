@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { AnterosRow, AnterosCol } from 'anteros-react-layout';
+import { AnterosFormGroup } from "anteros-react-containers";
 import { actions } from '../redux/modules/acoes';
+import { AnterosLabel } from "anteros-react-label";
 import { boundClass, If, Then } from 'anteros-react-core';
 import { Resources, EndPoints } from '../service/Resources';
 import { WithFormTemplate } from 'anteros-react-template';
@@ -9,8 +11,9 @@ import NameField from '../components/NameField';
 import IdentificadorField from '../components/IdentificadorField';
 import SaveCancelButtons from '../components/SaveCancelButtons';
 import LookupField from '../components/LookupField';
-import ConsultaRecurso from '../modals/ConsultaRecursos';
+import ConsultaRecurso from '../modals/ConsultaRecurso';
 import axios from 'axios';
+import { AnterosCheckbox } from 'anteros-react-editors';
 
 const loadingProps = {
     resource: Resources.ACAO,
@@ -110,13 +113,27 @@ class AcoesForm extends Component {
                             dataSource={this.props.dataSource}
                             dataField="category" editSize={3} />
                         <LookupField caption="Recurso" name="Recurso" dataSource={this.props.dataSource}
-                            dataField="resource" lookupField="resource.id" descriptionField="resouce.description" onStartLookupData={this.onStartLookupData}
+                            dataField="resource" lookupField="resource.id" descriptionField="resource.description" onStartLookupData={this.onStartLookupData}
                             lookupState={this.state.lookup}
                             lookupSize={2}
                             onFinishedLookupData={this.onFinishedLookupData}
                             onLookupData={this.onLookupRecurso}
                             onLookupDataError={this.onLookupError} modalName="modalConsultaRecurso"
                             onButtonClick={this.onClick} />
+
+                        <AnterosFormGroup>
+                            <AnterosLabel caption="" small={2} />
+                            <AnterosCheckbox
+                                dataField="active"
+                                dataSource={this.props.dataSource}
+                                valueChecked={true}
+                                valueUnchecked={false}
+                                small={{
+                                    size: 6
+                                }}
+                                value="Ativa ?"
+                            />
+                        </AnterosFormGroup>
                     </AnterosCol>
                 </AnterosRow>
                 <SaveCancelButtons onButtonClick={this.props.onButtonClick} routeSave={this.props.loadingProps.routes.cancel} routeCancel={this.props.loadingProps.routes.cancel} />

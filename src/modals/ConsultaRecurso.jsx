@@ -6,6 +6,13 @@ import { boundClass } from 'anteros-react-core';
 import { Resources, EndPoints } from '../service/Resources';
 import { WithSearchModalTemplate } from 'anteros-react-template';
 import { connect } from 'react-redux';
+import {
+  AnterosRemoteDatasource,
+  dataSourceConstants
+} from 'anteros-react-datasource';
+
+const PAGE_SIZE = 30;
+
 
 @WithSearchModalTemplate({
   resource: Resources.RECURSO,
@@ -15,7 +22,7 @@ import { connect } from 'react-redux';
   endPoints: EndPoints,
   openDataSourceFilter: true,
   openMainDataSource: true,
-  pageSize: 30,
+  pageSize: PAGE_SIZE,
   defaultSort: 'id',
   viewName: 'modalConsultaRecurso',
   caption: 'Consulta recursos',
@@ -24,6 +31,43 @@ import { connect } from 'react-redux';
 })
 @boundClass
 class ConsultaRecurso extends Component {
+
+  onCreateDatasource() {
+    let dataSource;
+    if (this.props.dataSource) {
+      dataSource = this.props.dataSource;
+      if (dataSource.getState() !== dataSourceConstants.DS_BROWSE) {
+        dataSource.cancel();
+      }
+    } else {
+      dataSource = new AnterosRemoteDatasource();
+      dataSource.setAjaxPostConfigHandler(entity => {
+        return EndPoints.POST(Resources.RECURSO, entity, this.getUser());
+      });
+      dataSource.setValidatePostResponse(response => {
+        return response.data !== undefined;
+      });
+      dataSource.setAjaxDeleteConfigHandler(entity => {
+        return EndPoints.DELETE(Resources.RECURSO, entity, this.getUser());
+      });
+      dataSource.setValidateDeleteResponse(response => {
+        return response.data !== undefined;
+      });
+    }
+    return dataSource;
+  }
+
+  onFindAll(page, pageSize, sort, user, fieldsToForceLazy) {
+    return EndPoints.FIND_RESOURCES_BY_SYSTEM(this.props.system.name, Resources.RECURSO, page, pageSize, sort, user, fieldsToForceLazy)
+  }
+
+  onFindMultipleFields(filter, fields, page, pageSize, sort, user, fieldsToForceLazy) {
+    return EndPoints.FIND_MULTIPLE_FIELDS_WITH_SYSTEM(this.props.system.name, Resources.RECURSO, filter, fields, page, pageSize, sort, user, fieldsToForceLazy)
+  }
+
+  onFindWithFilter(filter, page, pageSize, sort, user, fieldsToForceLazy) {
+    return EndPoints.FIND_WITH_FILTER_WITH_SYSTEM(this.props.system.name, this.props.system.id, Resources.RECURSO, filter, page, pageSize, user, fieldsToForceLazy, sort)
+  }
 
   getFieldsFilter() {
     return (

@@ -26,7 +26,5 @@ export default class DescricaoField extends AnterosReactComponent {
 DescricaoField.defaultProps = {
     labelSize: 2,
     caption: "Descrição",
-    editSize: 8,
-    maxLength: 40,
-    minLength: 1
+    editSize: 8
 }

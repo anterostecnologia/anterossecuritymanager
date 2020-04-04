@@ -30,7 +30,7 @@ import { boundClass } from 'anteros-react-core';
 class UsuariosView extends Component {
 
     onAfterInsert() {
-        
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
     }
 
 

@@ -5,6 +5,7 @@ import { Resources, EndPoints } from '../service/Resources';
 import { QueryFields, QueryField } from 'anteros-react-querybuilder';
 import { Columns, AnterosDataTableColumn } from 'anteros-react-table';
 import { boundClass } from 'anteros-react-core';
+import { connect } from 'react-redux';
 
 @WithTableContainerTemplate({
     resource: Resources.SISTEMA,
@@ -30,7 +31,7 @@ import { boundClass } from 'anteros-react-core';
 class SistemasView extends Component {
 
     onAfterInsert() {
-        
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
     }
 
 
@@ -104,4 +105,12 @@ class SistemasView extends Component {
     }
 }
 
-export default SistemasView;
+const mapStateToProps = state => {
+    return {
+        user: state.authenticationReducer.user,
+        authenticated: state.authenticationReducer.authenticated,
+        system: state.sistemasAdminReducer.activeSystem
+    }
+};
+
+export default connect(mapStateToProps, null)(SistemasView);

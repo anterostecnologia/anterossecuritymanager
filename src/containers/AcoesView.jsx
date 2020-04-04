@@ -63,7 +63,7 @@ class AcoesView extends Component {
     }
 
     onAfterInsert() {
-
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
     }
 
     onFindAll(page, pageSize, sort, user, fieldsToForceLazy) {

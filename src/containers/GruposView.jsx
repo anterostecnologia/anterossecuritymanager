@@ -5,6 +5,7 @@ import { Resources, EndPoints } from '../service/Resources';
 import { QueryFields, QueryField } from 'anteros-react-querybuilder';
 import { Columns, AnterosDataTableColumn } from 'anteros-react-table';
 import { boundClass } from 'anteros-react-core';
+import { connect } from 'react-redux';
 
 @WithTableContainerTemplate({
     resource: Resources.GRUPO,
@@ -30,7 +31,7 @@ import { boundClass } from 'anteros-react-core';
 class GruposView extends Component {
 
     onAfterInsert() {
-
+        this.dataSource.setFieldByName('owner', this.props.user.owner.id);
     }
 
 

@@ -17,6 +17,8 @@ const GruposView = React.lazy(() => import('./containers/GruposView'));
 const SistemasForm = React.lazy(() => import('./forms/SistemasForm'));
 const RecursosForm = React.lazy(() => import('./forms/RecursosForm'));
 const AcoesForm = React.lazy(() => import('./forms/AcoesForm'));
+const TerminalAcessoForm = React.lazy(() => import('./forms/TerminalAcessoForm'));
+const HorarioAcessoView = React.lazy(() => import('./containers/HorarioAcessoView'));
 
 
 const routes = [
@@ -32,6 +34,9 @@ const routes = [
     { path: '/home/recurso/acao/adicionar', exact: true, name: 'Ações', component: AcoesForm, isSecurity: true },
     { path: '/home/recurso/acao/editar', exact: true, name: 'Ações', component: AcoesForm, isSecurity: true },
     { path: '/home/recurso/terminalacesso/consulta', exact: true, name: 'Terminais de acesso', component: TerminalAcessoView, isSecurity: true },
+    { path: '/home/recurso/terminalacesso/adicionar', exact: true, name: 'Terminais de acesso', component: TerminalAcessoForm, isSecurity: true },
+    { path: '/home/recurso/terminalacesso/editar', exact: true, name: 'Terminais de acesso', component: TerminalAcessoForm, isSecurity: true },
+    { path: '/home/seguranca/horarioacesso/consulta', exact: true, name: 'Horários de acesso', component: HorarioAcessoView, isSecurity: true },
     { path: '/home/seguranca/perfil/consulta', exact: true, name: 'Perfis', component: PerfisView, isSecurity: true },
     { path: '/home/seguranca/usuario/consulta', exact: true, name: 'Usuários', component: UsuariosView, isSecurity: true },
     { path: '/home/seguranca/grupo/consulta', exact: true, name: 'Usuários', component: GruposView, isSecurity: true },
